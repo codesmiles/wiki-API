@@ -15,5 +15,20 @@ router.get("/articles", (req, res) => {
     })
 })
 
+// post new article
+app.post("/articles", (req, res) => {
+    const newArticle = new Article({
+        title: req.body.title,
+        content: req.body.content
+    })
+    newArticle.save((err, data) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect("/articles");
+        }
+    })
+})
+
 
 module.exports = router;
