@@ -7,5 +7,5 @@ const articleSchema = new Schema({
 })
 
 
-const MongooseModel = mongoose.model("article", );
+const MongooseModel = mongoose.model("article", articleSchema);
 module.exports = MongooseModel;
