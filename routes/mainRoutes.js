@@ -6,6 +6,19 @@ router
   .route("/articles")
 
   .get((req, res) => {
+    //   check if there are no articles in the database
+    Article.find({}, (err, data) => {
+      if (!err) {
+        if (data.length === 0) {
+          res.send(`<h1>No articles found</h1>`);
+        }
+      } else {
+        console.log(err);
+      }
+    });
+  })
+
+  .get((req, res) => {
     //////////////////// get all articles//////////////////////
 
     Article.find({}, (err, data) => {
@@ -65,20 +78,30 @@ router
       } else {
         console.log(err);
       }
+      res.redirect("/articles");
     });
-  }).patch((req, res) => {
+  })
+  .patch((req, res) => {
     ///////////////////// update part of an article////////////////////
     Article.findOneAndUpdate({ title: req.params.articleTitle }, {}, (err) => {
-        if (!err) {
-            res.send(`successfully updated article`);
-        }
-    })
-  }).delete((req, res) => {
+      if (!err) {
+        res.send(`successfully updated article`);
+      } else {
+        console.log(err);
+      }
+      res.redirect("/articles");
+    });
+  })
+  .delete((req, res) => {
     /////////////////////// delete one article //////////////////
     Article.deleteOne({ title: req.params.articleTitle }, (err) => {
-        if (!err) {res.send(`successfully deleted article`)}
-        else{console.log(err)}
-    })
-  })
+      if (!err) {
+        res.send(`successfully deleted article`);
+      } else {
+        console.log(err);
+      }
+    });
+    res.redirect(`/articles`);
+  });
 
 module.exports = router;
