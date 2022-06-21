@@ -6,7 +6,7 @@ router
   .route("/articles")
 
   .get((req, res) => {
-    // get all articles
+    //////////////////// get all articles//////////////////////
 
     Article.find({}, (err, data) => {
       if (err) {
@@ -18,7 +18,7 @@ router
     });
   })
   .post((req, res) => {
-    // post new article
+    //////////////////////// post new article////////////////////
     const newArticle = new Article({
       title: req.body.title,
       content: req.body.content,
@@ -33,7 +33,7 @@ router
     });
   })
   .delete((req, res) => {
-    // delete all article
+    /////////////////////// delete all article/////////////////
     Article.deleteMany({}, (err) => {
       // to see if it works check the console
       if (!err) {
@@ -43,5 +43,42 @@ router
       }
     });
   });
+
+router
+  .route(`articles/:articleTitle`)
+  .get((req, res) => {
+    /////////////////////// req one article //////////////////
+    Article.findOne({ title: req.params.articleTitle }, (err, data) => {
+      if (!err) {
+        res.send(data);
+      } else {
+        console.log(err);
+      }
+    });
+    res.redirect("/articles");
+  })
+  .put((req, res) => {
+    /////////////////////// update a whole article //////////////////
+    Article.findOneAndUpdate({ title: req.params.articleTitle }, {}, (err) => {
+      if (!err) {
+        res.send(`successfully updated article`);
+      } else {
+        console.log(err);
+      }
+    });
+  }).patch((req, res) => {
+    ///////////////////// update part of an article////////////////////
+    Article.findOneAndUpdate({ title: req.params.articleTitle }, {}, (err) => {
+        if (!err) {
+            res.send(`successfully updated article`);
+        }
+    })
+  }).delete((req, res) => {
+    /////////////////////// delete one article //////////////////
+    Article.deleteOne({ title: req.params.articleTitle }, (err) => {
+        if (!err) {res.send(`successfully deleted article`)}
+        else{console.log(err)}
+    })
+  })
 
 module.exports = router;
