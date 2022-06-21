@@ -72,25 +72,34 @@ router
   })
   .put((req, res) => {
     /////////////////////// update a whole article //////////////////
-    Article.findOneAndUpdate({ title: req.params.articleTitle }, {}, (err) => {
-      if (!err) {
-        res.send(`successfully updated article`);
-      } else {
-        console.log(err);
+    Article.findOneAndUpdate(
+      { title: req.params.articleTitle },
+      { title: req.body.title, content: req.body.content },
+      { overwrite: true },
+      (err) => {
+        if (!err) {
+          res.send(`successfully updated article`);
+        } else {
+          console.log(err);
+        }
+        res.redirect("/articles");
       }
-      res.redirect("/articles");
-    });
+    );
   })
   .patch((req, res) => {
     ///////////////////// update part of an article////////////////////
-    Article.findOneAndUpdate({ title: req.params.articleTitle }, {}, (err) => {
-      if (!err) {
-        res.send(`successfully updated article`);
-      } else {
-        console.log(err);
+    Article.findOneAndUpdate(
+      { title: req.params.articleTitle },
+      {$set:req.body},
+      (err) => {
+        if (!err) {
+          res.send(`successfully updated article`);
+        } else {
+          console.log(err);
+        }
+        res.redirect("/articles");
       }
-      res.redirect("/articles");
-    });
+    );
   })
   .delete((req, res) => {
     /////////////////////// delete one article //////////////////
