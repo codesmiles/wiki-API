@@ -1,0 +1,7 @@
+get HTTP://localhost:2000/articles/
+Content-Type: application/json
+
+{
+    "title": "Second article",
+    "content": "I strongly recomend frowning"
+}

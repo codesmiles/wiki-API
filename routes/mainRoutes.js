@@ -4,44 +4,34 @@ const router = Router();
 
 router
   .route("/articles")
-
   .get((req, res) => {
-    //   check if there are no articles in the database
+    //////////////////// get all articles//////////////////////
+
     Article.find({}, (err, data) => {
       if (!err) {
         if (data.length === 0) {
           res.send(`<h1>No articles found</h1>`);
+        } else {
+          res.send(data);
         }
       } else {
         console.log(err);
       }
     });
   })
-
-  .get((req, res) => {
-    //////////////////// get all articles//////////////////////
-
-    Article.find({}, (err, data) => {
-      if (err) {
-        console.log(err);
-      } else {
-        // res.render("index", { articles: data });
-        res.send(data);
-      }
-    });
-  })
   .post((req, res) => {
     //////////////////////// post new article////////////////////
+    const { title, content } = req.body;
     const newArticle = new Article({
-      title: req.body.title,
-      content: req.body.content,
+      title,
+      content,
     });
     newArticle.save((err) => {
       if (err) {
         console.log(err);
       } else {
         res.send(`successfully added new article`);
-        res.redirect("/articles");
+        // res.redirect("/articles");
       }
     });
   })
@@ -68,7 +58,7 @@ router
         console.log(err);
       }
     });
-    res.redirect("/articles");
+    // res.redirect("/articles");
   })
   .put((req, res) => {
     /////////////////////// update a whole article //////////////////
@@ -82,7 +72,7 @@ router
         } else {
           console.log(err);
         }
-        res.redirect("/articles");
+        // res.redirect("/articles");
       }
     );
   })
@@ -90,14 +80,14 @@ router
     ///////////////////// update part of an article////////////////////
     Article.findOneAndUpdate(
       { title: req.params.articleTitle },
-      {$set:req.body},
+      { $set: req.body },
       (err) => {
         if (!err) {
           res.send(`successfully updated article`);
         } else {
           console.log(err);
         }
-        res.redirect("/articles");
+        // res.redirect("/articles");
       }
     );
   })
@@ -110,7 +100,7 @@ router
         console.log(err);
       }
     });
-    res.redirect(`/articles`);
+    // res.redirect(`/articles`);
   });
 
 module.exports = router;
