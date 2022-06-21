@@ -1,15 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
+
 const app = express();
 const mainRoutes = require("./routes/mainRoutes");
 
 // middleware
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
 app.use("/", mainRoutes);
-// app.use(express.static("public"));
 
 // SET UP MONGOOSE CONNECTION------------------
 const url = `mongodb://localhost:27017/wikiDB`;
