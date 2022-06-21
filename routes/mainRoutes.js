@@ -16,7 +16,7 @@ router.get("/articles", (req, res) => {
 })
 
 // post new article
-app.post("/articles", (req, res) => {
+router.post("/articles", (req, res) => {
     const newArticle = new Article({
         title: req.body.title,
         content: req.body.content
